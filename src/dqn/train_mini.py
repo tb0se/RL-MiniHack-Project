@@ -31,7 +31,7 @@ def parse_args():
     parser = argparse.ArgumentParser("DQN experiments for Atari games")
     parser.add_argument("--seed", type=int, default=42, help="which seed to use")
     # Environment
-    parser.add_argument("--env", type=str, default="PongNoFrameskip-v4", help="name of the game")
+    parser.add_argument("--env", type=str, default="MiniHack-Quest-Hard-v0", help="name of the game")
     # Core DQN parameters
     parser.add_argument("--replay-buffer-size", type=int, default=int(1e6), help="replay buffer size")
     parser.add_argument("--lr", type=float, default=1e-4, help="learning rate for Adam optimizer")
@@ -83,14 +83,13 @@ def path_name(env_name):
 if __name__ == '__main__':
     sys.stdout = Logger()
     args = parse_args()
-    print(args.batch_size)
     torch.manual_seed(args.seed)
     torch.cuda.manual_seed_all(args.seed)
     np.random.seed(args.seed)
     random.seed(args.seed)
 
     assert "NoFrameskip" in args.env, "Require environment with no frameskip"
-    env = gym.make(args.env)
+    env = gym.make(args.env, observation_keys=("pixel"))
     env.seed(args.seed)
     env = NoopResetEnv(env, noop_max=30)
     env = MaxAndSkipEnv(env, skip=4)
