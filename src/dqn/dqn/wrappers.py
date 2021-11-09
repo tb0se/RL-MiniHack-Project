@@ -7,6 +7,7 @@ from collections import deque
 import gym
 from gym import spaces
 import cv2
+import minihack
 
 cv2.ocl.setUseOpenCL(False)
 

@@ -8,6 +8,9 @@ from dqn.replay_buffer import ReplayBuffer
 from dqn.wrappers import *
 import time
 import sys
+import gym
+import minihack
+
 
 class Logger(object):
     """
@@ -28,7 +31,7 @@ class Logger(object):
         pass
 
 def parse_args():
-    parser = argparse.ArgumentParser("DQN experiments for Atari games")
+    parser = argparse.ArgumentParser("DQN experiments for Mini Hack Game")
     parser.add_argument("--seed", type=int, default=42, help="which seed to use")
     # Environment
     parser.add_argument("--env", type=str, default="MiniHack-Quest-Hard-v0", help="name of the game")
@@ -88,8 +91,8 @@ if __name__ == '__main__':
     np.random.seed(args.seed)
     random.seed(args.seed)
 
-    assert "NoFrameskip" in args.env, "Require environment with no frameskip"
-    env = gym.make(args.env, observation_keys=("pixel"))
+#    assert "NoFrameskip" in args.env, "Require environment with no frameskip"
+    env = gym.make(args.env, observation_keys=("glyphs", "chars", "colors", "pixel"))
     env.seed(args.seed)
     env = NoopResetEnv(env, noop_max=30)
     env = MaxAndSkipEnv(env, skip=4)
