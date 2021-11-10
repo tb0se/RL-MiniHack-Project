@@ -94,15 +94,17 @@ if __name__ == '__main__':
 #    assert "NoFrameskip" in args.env, "Require environment with no frameskip"
     env = gym.make(args.env, observation_keys=("glyphs", "chars", "colors", "pixel"))
     env.seed(args.seed)
+    # Use pixel only
+    # env = PixelObservationWrapper(env, pixel_keys=("pixel",))
     env = NoopResetEnv(env, noop_max=30)
     # env = MaxAndSkipEnv(env, skip=4)
+    env = RenderRGB(env, "pixel")
     env = EpisodicLifeEnv(env)
-    env = FireResetEnv(env)
     env = WarpFrame(env)
     env = PyTorchFrame(env)
     env = ClipRewardEnv(env)
+    # env = FlattenObservation(env)
     env = FrameStack(env, 4)
-    env = RenderRGB(env, "pixel")
     env = gym.wrappers.Monitor(env, "recording", force=True)
     replay_buffer = ReplayBuffer(args.replay_buffer_size)
 
