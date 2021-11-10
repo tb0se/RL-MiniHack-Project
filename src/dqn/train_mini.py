@@ -107,7 +107,8 @@ if __name__ == '__main__':
     env = FrameStack(env, 4)
     env = gym.wrappers.Monitor(env, "recording", force=True)
     replay_buffer = ReplayBuffer(args.replay_buffer_size)
-
+    print("Screen warped to:", end='')
+    print(env.observation_space.shape)
     agent = DQNAgent(
         env.observation_space,
         env.action_space,

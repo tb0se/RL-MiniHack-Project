@@ -37,7 +37,6 @@ class DQNAgent:
         self.batch_size = batch_size
         self.use_double_dqn = use_double_dqn
         self.gamma = gamma
-        print(type(observation_space))
         self.policy_net = DQN(observation_space, action_space).to(device)
         self.target_network = DQN(observation_space, action_space).to(device)
         self.update_target_network()

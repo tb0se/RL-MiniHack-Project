@@ -37,12 +37,10 @@ class DQN(nn.Module):
             type(action_space) == spaces.Discrete
         ), "action_space must be of type Discrete"
 
-        self.conv1 = nn.Conv2d(336, 32, 8, stride=4)
+        self.conv1 = nn.Conv2d(4, 32, 8, stride=4)
         self.conv2 = nn.Conv2d(32, 64, 4, stride=2)
         self.conv3 = nn.Conv2d(64, 64, 3, stride=1)
-        self.linear1 = nn.Linear(64 * 40 * 156, 512)
-        #If 84 was used instead of 210, use this line
-        # self.linear1 = nn.Linear(64*22*22, 512)
+        self.linear1 = nn.Linear(3136, 512)
         self.linear2 = nn.Linear(512, action_space.n)
         
 
@@ -50,7 +48,7 @@ class DQN(nn.Module):
         x = F.relu(self.conv1(x))
         x = F.relu(self.conv2(x))
         x = F.relu(self.conv3(x))
-        x = x.view(-1, 64 * 40 * 156)  # flatten
+        x = x.view(-1, 3136)  # flatten
         #If 84 was used instead of 210, use this line
         # x = x.view(-1, 64*22*22)
         x = F.relu(self.linear1(x))
